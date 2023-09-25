@@ -28,10 +28,21 @@ int main(int argc, char **argv) {
 	cout << "RAM threads:\t\t" << ThreadHandler::n << endl;
 
 	t0 = timeSinceEpochMillisec();
+
 	ThreadHandler::start();
+	// Inicio de los procesos de archivo
+
+	// Ciclo de revision de estado de procesos
+	bool fl = true;
+	while (fl) {
+	  fl = false;
+	  for (int i = 0; i < ThreadHandler::n; i++) {
+		fl = fl || ThreadHandler::std[i];
+	  }
+	}
+
 	t1 = timeSinceEpochMillisec();
 
-//	double time = (double(t1 - t0) / CLOCKS_PER_SEC);
 	cout << "System time spent:\t" << (t1 - t0) / 1000.0 << "ms" << endl;
 
 	return 0;

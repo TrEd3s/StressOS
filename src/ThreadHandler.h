@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include <thread>
-
 #include "extra.h"
 #include "SortedList.h"
 
@@ -77,15 +76,6 @@ public:
 	// Iniciar todos los hilos
 	for (int i = 0; i < n; i++) {
 	  thrds[i] = thread(ThreadFunction, i, 100);
-	}
-
-	// Ciclo de revision de estado de procesos
-	bool fl = true;
-	while (fl) {
-	  fl = false;
-	  for (int i = 0; i < n; i++) {
-		fl = fl || std[i];
-	  }
 	}
 
 	return 0;
