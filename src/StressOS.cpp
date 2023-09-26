@@ -12,13 +12,22 @@
 #include <thread>
 
 #include "ThreadHandler.h"
+#include "FileHandler.h"
 
 using namespace std;
 
+// ThreadHandler inicialization
 int ThreadHandler::n = 400; // Numero de procesos identicos que seran creados
 thread *ThreadHandler::thrds = new thread[n]; 	// Arreglo de hilos
 bool *ThreadHandler::std = new bool[n]; // Arreglo para almacenar el estado de cada proceso
 bool ThreadHandler::printed = false; 	// Bandera para imprimir solo una vez
+
+// FileHandler inicialization
+int FileHandler::n = 10; // Numero de procesos de archivo identicos que seran creados
+thread *FileHandler::thrds = new thread[n]; 	// Arreglo de hilos
+bool *FileHandler::std = new bool[n]; // Arreglo para almacenar el estado de cada proceso
+bool FileHandler::printed = false; 	// Bandera para imprimir solo una vez
+
 
 int main(int argc, char **argv) {
 
@@ -29,8 +38,8 @@ int main(int argc, char **argv) {
 
 	t0 = timeSinceEpochMillisec();
 
-	ThreadHandler::start();
-	// Inicio de los procesos de archivo
+	ThreadHandler::start();		// Inicio de los procesos de RAM y CPU
+	FileHandler::start();			// Inicio de los procesos de archivo
 
 	// Ciclo de revision de estado de procesos
 	bool fl = true;

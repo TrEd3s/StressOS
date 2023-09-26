@@ -31,38 +31,45 @@ public:
 	/**
 	 * Funcion principal del hilo
 	 *
-	 * Contiene el cuerpo de codigo a ejecutarse en cada hilo. Crea una lista
-	 * dinamica ordenada. Los valores en la lista son el fobonacci de numeros
-	 * aleatorios generados.
+	 * Contiene el cuerpo de codigo a ejecutarse en cada hilo. Crea un archivo de
+	 * un tamaño determinado y valores (BYTES) aleatorios de uno en uno, luego de
+	 * cerrar el archivo vuelve a abrirse para entonces leerlo de uno en uno
 	 *
 	 * @param idx Indice del proceso en el arreglo de estados
-	 * @param load Indice de carga del proceso. 100 valor promedio
+	 * @param size Tamaño del archivo en MB
 	 * @return void
 	 */
-	static void ThreadFunction(int idx, int load) {
-		SortedList *list = new SortedList();
-
-		int n = load * 100;
-		int min = load / 10;
-		int max = min + 10;
+	static void ThreadFunction(int idx, int size) {
 
 		// Print once time
 		if (printed == false) {
-			cout << "Thread load:\t\t" << load << endl;
-			cout << "Items in each thread:\t" << n << endl;
-			cout << "Min/max Fibonacci:\t" << min << "/" << max << endl;
+			cout << "Files Threads:\t\t" << n << endl;
+			cout << "File size:\t" << size << endl;
 			printed = true;
 		}
 
 		std[idx] = true;	// Marcar en el arreglo que el proceso inicio
 
 		for (int i = 0; i < n; i++) {
-			list->insert(fibo(randint(min, max)));
+			//list->insert(fibo(randint(min, max)));
 		}
 
 		std[idx] = false; // Marcar en el arreglo que este proceso ha terminado
-		delete list;
 	}
+
+	/**
+	 * Crea e inicia todos los hilos
+	 */
+	static int start() {
+
+		// Iniciar todos los hilos
+		for (int i = 0; i < n; i++) {
+			thrds[i] = thread(ThreadFunction, i, 100);
+		}
+
+		return 0;
+	}
+
 
 };
 
