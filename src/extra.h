@@ -8,6 +8,10 @@
 #ifndef EXTRA_H_
 #define EXTRA_H_
 
+#include "string"
+
+using namespace std;
+
 /**
  * Retorna el tiempo en milisegundos desde 1970
  *
@@ -54,6 +58,22 @@ int randint(int min, int max) {
   // srand(time(NULL));
 
   return (rand() % (max - min)) +min;
+}
+
+/**
+ * Genera nombre aleatorios (Secuencias de carcateres)
+ * Cada nombre tiene una longitud de 15 caracteres
+ * @return Nombre aleatorio
+ */
+string randFileName() {
+
+	string name = "";
+
+	for (int var = 0; var < 15; ++var) {
+		name = name + char(randint(97,122));
+	}
+
+	return name;
 }
 
 #endif /* EXTRA_H_ */

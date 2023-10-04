@@ -10,6 +10,7 @@
 #include <ctime>
 #include <iostream>
 #include <thread>
+#include <time.h>
 
 #include "ThreadHandler.h"
 #include "FileHandler.h"
@@ -28,7 +29,6 @@ thread *FileHandler::thrds = new thread[n]; 	// Arreglo de hilos
 bool *FileHandler::std = new bool[n]; // Arreglo para almacenar el estado de cada proceso
 bool FileHandler::printed = false; 	// Bandera para imprimir solo una vez
 
-
 int main(int argc, char **argv) {
 
 	long t0, t1;
@@ -44,10 +44,10 @@ int main(int argc, char **argv) {
 	// Ciclo de revision de estado de procesos
 	bool fl = true;
 	while (fl) {
-	  fl = false;
-	  for (int i = 0; i < ThreadHandler::n; i++) {
-		fl = fl || ThreadHandler::std[i];
-	  }
+		fl = false;
+		for (int i = 0; i < ThreadHandler::n; i++) {
+			fl = fl || ThreadHandler::std[i];
+		}
 	}
 
 	t1 = timeSinceEpochMillisec();

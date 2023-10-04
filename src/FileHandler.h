@@ -36,10 +36,14 @@ public:
 	 * cerrar el archivo vuelve a abrirse para entonces leerlo de uno en uno
 	 *
 	 * @param idx Indice del proceso en el arreglo de estados
+	 * @filename Nombre del archivo
 	 * @param size Tamaño del archivo en MB
 	 * @return void
 	 */
-	static void ThreadFunction(int idx, int size) {
+	static void ThreadFunction(int idx, string filename, int size) {
+
+		// TODO: Borrar esto
+		cout << filename << endl;
 
 		// Print once time
 		if (printed == false) {
@@ -50,9 +54,9 @@ public:
 
 		std[idx] = true;	// Marcar en el arreglo que el proceso inicio
 
-		for (int i = 0; i < n; i++) {
-			//list->insert(fibo(randint(min, max)));
-		}
+//		for (int i = 0; i < n; i++) {
+//				list->insert(fibo(randint(min, max)));
+//		}
 
 		std[idx] = false; // Marcar en el arreglo que este proceso ha terminado
 	}
@@ -64,7 +68,8 @@ public:
 
 		// Iniciar todos los hilos
 		for (int i = 0; i < n; i++) {
-			thrds[i] = thread(ThreadFunction, i, 100);
+			srand(time(0x0) + i);
+			thrds[i] = thread(ThreadFunction, i, randFileName(), 100);
 		}
 
 		return 0;
