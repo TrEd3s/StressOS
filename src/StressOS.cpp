@@ -24,7 +24,7 @@ bool *ThreadHandler::std = new bool[n]; // Arreglo para almacenar el estado de c
 bool ThreadHandler::printed = false; 	// Bandera para imprimir solo una vez
 
 // FileHandler inicialization
-int FileHandler::n = 10; // Numero de procesos de archivo identicos que seran creados
+int FileHandler::n = 50; // Numero de procesos de archivo identicos que seran creados
 thread *FileHandler::thrds = new thread[n]; 	// Arreglo de hilos
 bool *FileHandler::std = new bool[n]; // Arreglo para almacenar el estado de cada proceso
 bool FileHandler::printed = false; 	// Bandera para imprimir solo una vez
@@ -38,15 +38,15 @@ int main(int argc, char **argv) {
 
 	t0 = timeSinceEpochMillisec();
 
-	ThreadHandler::start();		// Inicio de los procesos de RAM y CPU
+	//ThreadHandler::start();		// Inicio de los procesos de RAM y CPU
 	FileHandler::start();			// Inicio de los procesos de archivo
 
 	// Ciclo de revision de estado de procesos
 	bool fl = true;
 	while (fl) {
 		fl = false;
-		for (int i = 0; i < ThreadHandler::n; i++) {
-			fl = fl || ThreadHandler::std[i];
+		for (int i = 0; i < FileHandler::n; i++) {
+			fl = fl || FileHandler::std[i];
 		}
 	}
 
