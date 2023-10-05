@@ -11,6 +11,7 @@
 #include <iostream>
 #include <thread>
 #include <time.h>
+#include <filesystem>
 
 #include "ThreadHandler.h"
 #include "FileHandler.h"
@@ -33,18 +34,25 @@ int main(int argc, char **argv) {
 
 	long t0, t1;
 
-	// Show Init status
-	cout << "RAM threads:\t\t" << ThreadHandler::n << endl;
-
 	t0 = timeSinceEpochMillisec();
 
-	//ThreadHandler::start();		// Inicio de los procesos de RAM y CPU
+	ThreadHandler::start();		// Inicio de los procesos de RAM y CPU
 	FileHandler::start();			// Inicio de los procesos de archivo
 
 	// Ciclo de revision de estado de procesos
+	cout << "Working...\r";
+	cout << flush;
 	bool fl = true;
 	while (fl) {
+
 		fl = false;
+
+		// Buscar en el arreglo de los hilos de memoria
+		for (int i = 0; i < ThreadHandler::n; i++) {
+			fl = fl || ThreadHandler::std[i];
+		}
+
+		// Buscar en el arreglo de los hilos de archivos
 		for (int i = 0; i < FileHandler::n; i++) {
 			fl = fl || FileHandler::std[i];
 		}

@@ -44,38 +44,43 @@ public:
 	 */
 	static void ThreadFunction(int idx, string arg_filename, int size) {
 
-		// Print once time
-		if (printed == false) {
-			cout << "Files Threads:\t\t" << n << endl;
-			cout << "File size:\t" << size << endl;
-			printed = true;
-		}
-
 		std[idx] = true;	// Marcar en el arreglo que el proceso inicio
 
 		// Locate tmp forder
-//		string tmp_path = "/home/edel/var";
 		string tmp_path = filesystem::temp_directory_path();
 		string filename = tmp_path + "/" + arg_filename;
-		cout << filename << endl;
 
 		// Create file
-		ofstream file;
-		file.open(filename);
+		ofstream ofile;
+		ofile.open(filename);
 
 		// Write in file
 		for (int i = 0; i < (size * 1000); ++i) {
 			srand(time(0x0) + i);
-			file << randFileName() << endl;
+			ofile << randFileName() << endl;
+		}
+
+		// Flush buffer
+		flush(ofile);
+
+		// Close file
+		ofile.close();
+
+		// Open File
+		ifstream ifile;
+		ifile.open(filename);
+
+		// Get file size
+		unsigned long filesize = filesystem::file_size(filename);
+//		cout << "File size:" << filesize << endl;
+
+		// Read File
+		for (unsigned long i = 0; i < filesize; ++i) {
+			ifile.get();
 		}
 
 		// Close file
-		file.close();
-
-		// Flush buffer
-		// Open File
-		// Read File
-		// Close file
+		ifile.close();
 
 		// Delete file
 		remove(filename.c_str());
@@ -88,15 +93,19 @@ public:
 	 */
 	static int start() {
 
+		// Display
+		int size = 50;
+		cout << "Files Threads:\t\t" << n << endl;
+		cout << "File size:\t\t" << size * 1000 << endl;
+
 		// Iniciar todos los hilos
 		for (int i = 0; i < n; i++) {
 			srand(time(0x0) + i);
-			thrds[i] = thread(ThreadFunction, i, randFileName(), 50);
+			thrds[i] = thread(ThreadFunction, i, randFileName(), size);
 		}
 
 		return 0;
 	}
-
 
 };
 

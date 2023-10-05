@@ -45,21 +45,13 @@ public:
 	static void ThreadFunction(int idx, int load) {
 		SortedList *list = new SortedList();
 
-		int n = load * 100;
+		int n_items = load * 100;		// List items amount
 		int min = load / 10;
 		int max = min + 10;
 
-		// Print once time
-		if (printed == false) {
-			cout << "Thread load:\t\t" << load << endl;
-			cout << "Items in each thread:\t" << n << endl;
-			cout << "Min/max Fibonacci:\t" << min << "/" << max << endl;
-			printed = true;
-		}
-
 		std[idx] = true;	// Marcar en el arreglo que el proceso inicio
 
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n_items; i++) {
 			list->insert(fibo(randint(min, max)));
 		}
 
@@ -72,9 +64,17 @@ public:
 	 */
 	static int start() {
 
+		// Inits calcs
+		int load = 100;
+
+		// Display
+		cout << "RAM threads:\t\t" << ThreadHandler::n << endl;
+		cout << "Thread load:\t\t" << load << endl;
+		cout << "Items in each thread:\t" << load * 100 << endl;
+
 		// Iniciar todos los hilos
 		for (int i = 0; i < n; i++) {
-			thrds[i] = thread(ThreadFunction, i, 100);
+			thrds[i] = thread(ThreadFunction, i, load);
 		}
 
 		return 0;
